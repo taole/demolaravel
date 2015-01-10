@@ -1,0 +1,114 @@
+
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="_token" content="<?=csrf_token(); ?>" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Blog</title>
+    <script src="assets/lib/jquery-1.9.1.js"></script>    
+    <script src="assets/lib/dist/js/bootstrap.min.js" type = "text/javascript"></script>
+    <script src="assets/lib/angular.min.js" type = "text/javascript"></script>
+    <link href="assets/lib/dist/css/bootstrap.min.css" rel="stylesheet" >
+</head>
+</head>
+<body>
+<div class="wrapper" ng-app="myApp">
+    <div ng-controller="myController" id="controller">
+        <div ng-repeat="item in data">
+            <a href="#" user-link=user/{{item.username}}>{{ item.email }}</a>
+            <button  type="button" class="btn btn-primary" ng-click="remove()">delete</button>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" >
+
+
+
+var app = angular.module('myApp', []);
+
+    app
+    .controller("myController", function($scope, $http) {
+        $scope.data= {};
+        
+        var url         = '/users';
+        // console.log(url);
+        $http.get(url)
+            .success(function(data) {
+                $scope.data = data;                
+            })
+            .error(function(data, status, headers, config) {
+                // log error
+                console.log(status,headers,config);
+            });
+        
+
+        $scope.remove=function(item){ 
+              var   index       =   $scope.data.indexOf(item),
+                    user_id     =   this.item.id,
+                    post_link   =   '/account', 
+                    post_link   =   post_link +'/'+ user_id ;
+
+                    console.log($scope.data );
+
+                    /*$scope.data.splice(-1,index);*/     
+           $scope.data.splice(index,1); 
+
+            /*$http.delete(post_link)
+            .success(function(data, status, headers) {                     
+                console.log(data);
+            })
+            .error(function(data, status, headers, config) {
+                // log error
+                console.log(data, status,headers,config);
+            });*/
+        
+        }
+        
+    })
+    .directive('ngReallyClick', [function() {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                element.bind('click', function() {
+                    var message = attrs.ngReallyMessage;
+                    scope.remove();
+                    if (message && confirm(message)) {
+
+                        scope.$apply(attrs.ngReallyClick);
+
+                        
+                    }
+                });
+            }
+        }
+    }]);
+
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+
+      <div class="modal-body">
+        ...
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="delete">Yes</button>
+        <button type="button" class="btn btn-primary">No</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+
+</body>
+</html>

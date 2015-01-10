@@ -1,0 +1,27 @@
+<!--container-->
+<div class="container" id="createDiaDiem" ng-controller="createDiaDiem">
+
+    <section class="page-edit-diadiemhocvo">
+        <form enctype="multipart/form-data" role="form" name="formLogIn" novalidate class="col-md-8" action="">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="User name " ng-model="data.username" required>
+                    </div><!--Tên võ đường-->
+
+                    <div class="form-group">
+                        <input type="text" class="form-control"  placeholder="password" ng-model="data.password" required>
+                    </div><!--Địa chỉ-->
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-default" ng-click="update(diadiem)" ng-disabled="formLogIn.$invalid">Submit</button>
+        </form>
+    </section>
+    <!--page-content-->
+    <pre>form = {{diadiem | json}}</pre>
+    <pre>master = {{data | json}}</pre>
+
+</div>
+<!--container-->
